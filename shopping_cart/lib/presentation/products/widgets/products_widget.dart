@@ -7,6 +7,7 @@ import 'package:shopping_cart/core/widgets/error_button/error_with_button_widget
 import 'package:shopping_cart/core/widgets/inputs/text_form_field_widgets.dart';
 import 'package:shopping_cart/data/models/product/product_model.dart';
 import 'package:shopping_cart/presentation/cart/viewModel/cart_view_model.dart';
+import 'package:shopping_cart/presentation/details/details_view.dart';
 import 'package:shopping_cart/presentation/products/viewModel/products_view_model.dart';
 
 class ProductsWidget extends StatefulWidget {
@@ -89,88 +90,99 @@ class _ProductsWidgetState extends State<ProductsWidget> with SnackBarMixin{
   }
 
   Widget _buildProductCard(ProductModel product) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(product.image, fit: BoxFit.contain),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsView(),
+                          settings: RouteSettings(arguments: product),
+                        ),
+                      );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 5,
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.network(product.image, fit: BoxFit.contain),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "R\$ ${product.price.toStringAsFixed(2)}",
-                  style: TextStyle(
-                    color: ShoppingAppColors.primaryColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "R\$ ${product.price.toStringAsFixed(2)}",
+                    style: TextStyle(
+                      color: ShoppingAppColors.primaryColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ShoppingAppColors.successGreen, 
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
                   ),
                 ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              decoration: BoxDecoration(
-                color: ShoppingAppColors.successGreen, 
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                ),
-              ),
-              child: Consumer<CartViewModel>(builder: (context, controller, child){
-                final quantity = controller.getProductQuantity(product.id);
-                if(quantity == 0){
-                  return IconButton(
-                onPressed: (){
-                  bool success = controller.addToCart(product);
-                  if(!success){
-                    showSnackBar(
-                      context, 
-                      "Limite de 10 produtos diferentes atingido!", 
-                      MessageType.error,
-                    );
+                child: Consumer<CartViewModel>(builder: (context, controller, child){
+                  final quantity = controller.getProductQuantity(product.id);
+                  if(quantity == 0){
+                    return IconButton(
+                  onPressed: (){
+                    bool success = controller.addToCart(product);
+                    if(!success){
+                      showSnackBar(
+                        context, 
+                        "Limite de 10 produtos diferentes atingido!", 
+                        MessageType.error,
+                      );
+                    }
+                  },
+                  icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
+                );
                   }
-                },
-                icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
-              );
-                }
-                else{
-                  return ButtonQuantitySelectorWidget(model: product
-                  , addToCart: () => controller.addToCart(product), removeFromCart: () => controller.removeFromCart(product.id), quantity: quantity);
-                }
-                
-              }),
+                  else{
+                    return ButtonQuantitySelectorWidget(model: product
+                    , addToCart: () => controller.addToCart(product), removeFromCart: () => controller.removeFromCart(product.id), quantity: quantity);
+                  }
+                  
+                }),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
