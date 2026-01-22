@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopping_cart/data/models/product/product_model.dart';
+import 'package:shopping_cart/presentation/order/order_view_model.dart';
 
 class CartViewModel extends ChangeNotifier {
   final Map<int, int> _items = {}; 
@@ -66,12 +68,15 @@ class CartViewModel extends ChangeNotifier {
     
   }
 
-  Future<bool> checkout() async {
+  Future<bool> checkout(BuildContext context) async {
     if (_productsInCart.isEmpty) return false;
     _isCheckingOut = true;
     notifyListeners();
 
     await Future.delayed(const Duration(seconds: 3));
+
+    final orderVM = Provider.of<OrderViewModel>(context, listen: false);
+    orderVM.setLastOrder(List.from(_productsInCart), totalPrice);
     _items.clear();
     _productsInCart.clear();
     

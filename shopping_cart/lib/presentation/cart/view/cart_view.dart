@@ -77,7 +77,7 @@ class _CartViewState extends State<CartView> with SnackBarMixin, NavigatorMixin 
                       label: 'FINALIZAR COMPRA',
                       isLoading: cartVM.isCheckingOut,
                       onPressed: ()async {
-                        final success = await cartVM.checkout();
+                        final success = await cartVM.checkout(context);
                         if (success && context.mounted) {
                           handleNavigation(context, OrderView.routeName);
                         }
