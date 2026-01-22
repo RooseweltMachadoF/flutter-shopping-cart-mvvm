@@ -28,7 +28,9 @@ class _OrderViewState extends State<OrderView> with NavigatorMixin{
         }
 
         return Scaffold(
-          appBar: AppBar(title: const Text("Pedido Finalizado"), leading: Icon(Icons.chevron_left , size: SizesEnum.xl.getSize, color: Colors.white,),),
+          appBar: AppBar(title: const Text("Pedido Finalizado"), leading: IconButton(onPressed: (){
+            Navigator.pop(context);
+          }, icon: Icon(Icons.chevron_left , size: SizesEnum.xl.getSize, color: Colors.white,)),),
           backgroundColor: ShoppingAppColors.backgroundColor,
           body: Column(
             children: [

@@ -51,6 +51,9 @@ class _ProductsWidgetState extends State<ProductsWidget> with SnackBarMixin{
               focusNode: _searchFocus,
               hintText: "Pesquise aqui",
               prefixIcon: Icons.search,
+              onChanged: (value){
+                context.read<ProductsViewModel>().filterProducts(value);
+              },
             ),
           ),
 
