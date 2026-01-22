@@ -11,6 +11,7 @@ class TextFormFieldWidgets extends StatefulWidget {
   final TextInputType textInputType;
   final TextInputAction? textInputAction;
   final void Function(String)? onFieldSubmitted;
+  final void Function(String)? onChanged;
   final IconData? prefixIcon; // Novo: para o ícone de lupa
 
   const TextFormFieldWidgets({
@@ -23,6 +24,7 @@ class TextFormFieldWidgets extends StatefulWidget {
     this.textInputType = TextInputType.text,
     this.textInputAction,
     this.onFieldSubmitted,
+    this.onChanged,
     this.prefixIcon,
     super.key,
   });
@@ -72,6 +74,7 @@ class _TextFormFieldWidgetsState extends State<TextFormFieldWidgets> {
               keyboardType: widget.textInputType,
               textInputAction: widget.textInputAction,
               onFieldSubmitted: widget.onFieldSubmitted,
+              onChanged: widget.onChanged,
               validator: widget.validator,
               style: TextStyle(color: _hasFocus ? Colors.black : ShoppingAppColors.greyText),
               decoration: InputDecoration(
