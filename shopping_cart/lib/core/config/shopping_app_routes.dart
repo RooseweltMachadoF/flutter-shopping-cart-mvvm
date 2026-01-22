@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:shopping_cart/presentation/cart/cart_view.dart';
 import 'package:shopping_cart/presentation/nav/view/nav_view.dart';
+import 'package:shopping_cart/presentation/order/order_view.dart';
 import 'package:shopping_cart/presentation/splash/view/splash_view.dart';
 
 class ShoppingAppRoutes {
@@ -21,11 +21,10 @@ class ShoppingAppRoutes {
       NavView.routeName : (_) {
         return const NavView();
       },
-
-      CartView.routeName : (_) {
-        return const CartView();
-      },
       
+      OrderView.routeName : (_) {
+        return const OrderView();
+      }
     };
   }
 }

@@ -23,6 +23,7 @@ class ProductsViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
+      _products.clear();
       _products = await _repository.getProducts();
     } catch (e) {
       _errorMessage = "Não foi possível carregar os produtos. Tente novamente.";

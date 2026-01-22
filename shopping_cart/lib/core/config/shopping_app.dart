@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopping_cart/core/config/initial_bindings.dart';
 import 'package:shopping_cart/core/config/shopping_app_material.dart';
 import 'package:shopping_cart/core/config/shopping_app_routes.dart';
-import 'package:shopping_cart/presentation/cart/cart_view_model.dart';
+import 'package:shopping_cart/presentation/cart/viewModel/cart_view_model.dart';
 import 'package:shopping_cart/presentation/splash/view/splash_view.dart';
 
 class ShoppingApp extends StatelessWidget {
