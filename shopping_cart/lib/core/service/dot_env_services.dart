@@ -10,5 +10,7 @@ class DotEnvServices {
   DotEnvServices._internal();
 
   static String get getApiBaseUrl => dotenv.env["API_BASE_URL"] as String;
+  static String get getApiImagesBaseUrl => dotenv.env["API_IMG_URL"] as String;
+
   
 }
