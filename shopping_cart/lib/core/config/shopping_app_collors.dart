@@ -9,17 +9,25 @@ class ShoppingAppColors {
 
   ShoppingAppColors._internal();
 
-  static Color get primaryColor => const Color(0xFFFF6600);
+  // Azul mais escuro do topo (Header Institucional)
+  static Color get primaryDarkBlue => const Color(0xFF003366);
 
-  static Color get secondaryColor => const Color(0xFF003399); 
+  // Azul vibrante da barra de busca (Identidade Principal)
+  static Color get primaryColor => const Color(0xFF0054A6);
 
-  static Color get backgroundColor => const Color(0xFFF5F5F5);
-  static Color get greyColor => const Color(0xFF757575);
+  // Vermelho do Logo e Destaques (Botões de Urgência)
+  static Color get secondaryColor => const Color(0xFFE30613); 
 
-  static Color get errorColor => const Color(0xFFDC3545);  
-  static Color get favoriteColor => Colors.redAccent;
+  // Verde do botão de checkout e carrinho (Ação Positiva)
+  static Color get successGreen => const Color(0xFF4CAF50);
 
-  static Color get successColor => const Color(0xFF28A745);
+  // Amarelo dos selos de "Dicas" e Ofertas
+  static Color get highlightYellow => const Color(0xFFFFD400);
 
+  static Color get errorColor => const Color(0xFFD32F2F);
+
+  // Background e Neutros
+  static Color get backgroundColor => const Color(0xFFF2F2F2);
   static Color get whiteColor => Colors.white;
+  static Color get greyText => const Color(0xFF666666);
 }

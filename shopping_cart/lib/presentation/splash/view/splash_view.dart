@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_cart/presentation/splash/widgets/splash_view_widget.dart';
 
 class SplashScreenView extends StatelessWidget {
   static const String routeName = '/splash';
@@ -7,9 +8,7 @@ class SplashScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("Splash" , style: TextStyle( fontSize: 22),),
-      ),
-    );
+        body: const SplashScreenWidget(),
+      );
   }
 }
