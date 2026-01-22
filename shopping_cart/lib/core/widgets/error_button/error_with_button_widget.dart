@@ -20,7 +20,8 @@ class ErrorWithButtonWidget extends StatelessWidget {
       children: [
         TextWidget.normal(
           text: errorMessage,
-          textAlign: TextAlign.center,),
+          textAlign: TextAlign.center,
+          color: Colors.black,),
         SizedBoxWidget.md(),
         ButtonWidget(label: 'Tente novamente', onPressed: tryAgain),
         

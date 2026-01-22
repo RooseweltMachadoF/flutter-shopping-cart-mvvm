@@ -4,13 +4,13 @@ import 'package:shopping_cart/core/config/shopping_app_collors.dart';
 import 'package:shopping_cart/core/mixins/navigator_mixin.dart';
 import 'package:shopping_cart/core/service/dot_env_services.dart';
 import 'package:shopping_cart/core/widgets/images/network_app_image_widget.dart';
-import 'package:shopping_cart/presentation/cart/cart_view.dart';
-import 'package:shopping_cart/presentation/cart/cart_view_model.dart';
+import 'package:shopping_cart/presentation/cart/view/cart_view.dart';
+import 'package:shopping_cart/presentation/cart/viewModel/cart_view_model.dart';
 import 'package:shopping_cart/presentation/nav/viewModel/nav_view_model.dart';
 import 'package:shopping_cart/presentation/products/view/products_view.dart';
 
 class NavWidget extends StatefulWidget {
-  static const String routeName = '/home';
+  
 
   const NavWidget({super.key});
 
@@ -32,7 +32,11 @@ class _NavWidgetState extends State<NavWidget> with NavigatorMixin{
               child: NetworkAppImageWidget(logoImage: DotEnvServices.getApiImagesBaseUrl,)),
             centerTitle: true,
             actions: [
-              _buildCartBadge(context),
+              GestureDetector(
+                onTap: () {
+                  navVM.selectNavIndex(1);
+                },
+                child: _buildCartBadge(context )),
             ],
           ),
           backgroundColor: ShoppingAppColors.backgroundColor,
@@ -66,37 +70,34 @@ class _NavWidgetState extends State<NavWidget> with NavigatorMixin{
   }
 
   Widget _buildCartBadge(BuildContext context) {
-    return GestureDetector(
-      onTap: () =>  handleNavigation(context, CartView.routeName, clear: false),
-      child: Padding(
-        padding: const EdgeInsets.only(right: 16),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            const Icon(Icons.shopping_cart_outlined, color: Colors.white),
-            Positioned(
-              right: 0,
-              top: 8,
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: ShoppingAppColors.secondaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                constraints: const BoxConstraints(minWidth: 13, minHeight: 13),
-                child: Consumer<CartViewModel>(builder: (context, controller, child){
-                  return 
-                   Text(
-                  controller.products.length.toString(),
-                  style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                );
-                }),
-                
+    return Padding(
+      padding: const EdgeInsets.only(right: 16),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          const Icon(Icons.shopping_cart_outlined, color: Colors.white),
+          Positioned(
+            right: 0,
+            top: 8,
+            child: Container(
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: ShoppingAppColors.secondaryColor,
+                borderRadius: BorderRadius.circular(10),
               ),
+              constraints: const BoxConstraints(minWidth: 13, minHeight: 13),
+              child: Consumer<CartViewModel>(builder: (context, controller, child){
+                return 
+                 Text(
+                controller.products.length.toString(),
+                style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              );
+              }),
+              
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_cart/core/config/shopping_app_collors.dart';
+import 'package:shopping_cart/core/mixins/snack_bar_mixin.dart';
+import 'package:shopping_cart/core/widgets/buttons/button_quantity_selector_widget.dart';
 import 'package:shopping_cart/core/widgets/error_button/error_with_button_widget.dart';
 import 'package:shopping_cart/core/widgets/inputs/text_form_field_widgets.dart';
 import 'package:shopping_cart/data/models/product/product_model.dart';
-import 'package:shopping_cart/presentation/cart/cart_view_model.dart';
+import 'package:shopping_cart/presentation/cart/viewModel/cart_view_model.dart';
 import 'package:shopping_cart/presentation/products/viewModel/products_view_model.dart';
 
 class ProductsWidget extends StatefulWidget {
@@ -14,7 +16,8 @@ class ProductsWidget extends StatefulWidget {
   State<ProductsWidget> createState() => _ProductsWidgetState();
 }
 
-class _ProductsWidgetState extends State<ProductsWidget> {
+class _ProductsWidgetState extends State<ProductsWidget> with SnackBarMixin{
+
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
 
@@ -59,7 +62,7 @@ class _ProductsWidgetState extends State<ProductsWidget> {
 
                 if (vm.hasError) {
                   return Center(
-                    child: ErrorWithButtonWidget(errorMessage: "Erro ao carregar a tela", tryAgain: vm.fetchProducts),
+                    child: SizedBox(width: 200, child: ErrorWithButtonWidget(errorMessage: "Erro ao carregar a tela", tryAgain: vm.fetchProducts ,)),
                   );
                 }
 
@@ -147,13 +150,21 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                 if(quantity == 0){
                   return IconButton(
                 onPressed: (){
-                  controller.addToCart(product);
+                  bool success = controller.addToCart(product);
+                  if(!success){
+                    showSnackBar(
+                      context, 
+                      "Limite de 10 produtos diferentes atingido!", 
+                      MessageType.error,
+                    );
+                  }
                 },
                 icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
               );
                 }
                 else{
-                  return _buildQuantitySelector(context, product, quantity);
+                  return ButtonQuantitySelectorWidget(model: product
+                  , addToCart: () => controller.addToCart(product), removeFromCart: () => controller.removeFromCart(product.id), quantity: quantity);
                 }
                 
               }),
@@ -163,32 +174,5 @@ class _ProductsWidgetState extends State<ProductsWidget> {
       ),
     );
   }
-  Widget _buildQuantitySelector(BuildContext context, ProductModel product, int quantity) {
-  final cartVM = context.read<CartViewModel>();
-
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: ShoppingAppColors.primaryColor.withOpacity(0.3)),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          onPressed: () => cartVM.removeFromCart(product.id),
-          icon: Icon(Icons.remove, color: ShoppingAppColors.errorColor, size: 18),
-        ),
-        Text(
-          '$quantity',
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        IconButton(
-          onPressed: () => cartVM.addToCart(product),
-          icon: Icon(Icons.add, color: ShoppingAppColors.successGreen, size: 18),
-        ),
-      ],
-    ),
-  );
-}
+  
 }

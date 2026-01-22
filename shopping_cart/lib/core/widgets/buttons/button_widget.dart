@@ -21,7 +21,7 @@ class ButtonWidget extends StatelessWidget {
     return LayoutBuilder(builder: (_, constraints) {
       return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: ShoppingAppColors.secondaryColor.withOpacity(
+          backgroundColor: ShoppingAppColors.primaryColor.withOpacity(
             isLoading? .6 : 1
           ),
           fixedSize: isBlock? Size(constraints.maxWidth, 50) : null
