@@ -27,14 +27,21 @@ flutter pub get
 4- Execute o aplicativo:
 flutter run
 
-📁 Estrutura de Pastas e Arquitetura
-O projeto utiliza MVVM para garantir separação de responsabilidades e testabilidade:
+📁 Arquitetura e Padrões de Projeto
+O projeto foi evoluído para seguir os princípios da Clean Architecture, separando as regras de negócio das implementações externas:
 
-Data: Models e Repositories (Consumo de API).
+- **Domain:** Entidades puras (`ProductEntity`) e Casos de Uso (`GetProductsUseCase`).
+- **Data:** Repositórios e Models (DTOs) que lidam com a Fake Store API.
+- **Presentation:** - **ViewModels:** Orquestram o estado da UI sem lógica de API direta.
+  - **Commands:** Padrão de projeto para encapsular ações (ex: `LoadProductsCommand`), gerenciando automaticamente estados de loading, sucesso e erro.
+- **Core:** Utilitários globais e a `sealed class Result`, garantindo tratamento de erros funcional e tipado.
 
-Core: Configurações globais, Mixins, Enums, Temas e Widgets reutilizáveis.
+🧪 Testes e Qualidade de Código
+Implementação de testes automatizados cobrindo os cenários críticos:
 
-Presentation: Views e ViewModels (Regras de negócio da UI).
+- **Testes Unitários (ViewModel):** Validação do fluxo de `loading`, `error` e `success` ao buscar produtos.
+- **Testes de Widget (UI):** Uso de `pump()` para verificar a renderização por estado (ex: se o spinner aparece no carregamento e se a mensagem de erro surge na falha).
+- **Mocks:** Utilização do pacote `mocktail` para simular dependências e garantir testes isolados e rápidos.
 
 ✨ Funcionalidades
 1. Catálogo e Detalhes
@@ -60,6 +67,12 @@ Simulação de checkout assíncrono.
 Tela de resumo de pedido com cálculo de frete simulado.
 
 Navegação automática e limpeza de estado após finalização.
+
+🌟 Diferenciais Implementados (Extras do Desafio)
+- [x] **Padrão Command/Result:** Gerenciamento de estado robusto e escalável.
+- [x] **Clean Architecture:** Camada de domínio isolada para maior testabilidade.
+- [x] **Responsividade e Layout:** Tratamento de `RenderFlex Overflow` e uso de `LayoutBuilder`.
+- [x] **Tratamento de Erros:** Feedback visual com widgets de erro customizados e retry logic.
 
 📜 Histórico de Commits
 O histórico foi organizado por features principais, seguindo boas práticas de mensagens descritivas:

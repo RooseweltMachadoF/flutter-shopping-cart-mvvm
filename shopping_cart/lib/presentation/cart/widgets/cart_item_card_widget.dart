@@ -3,15 +3,15 @@ import 'package:shopping_cart/core/config/shopping_app_collors.dart';
 import 'package:shopping_cart/core/widgets/buttons/button_quantity_selector_widget.dart';
 import 'package:shopping_cart/core/widgets/images/network_app_image_widget.dart';
 import 'package:shopping_cart/core/widgets/texts/text_widget.dart';
-import 'package:shopping_cart/data/models/product/product_model.dart';
+import 'package:shopping_cart/domain/entities/product/product_entity.dart';
 
 class CartItemCard extends StatelessWidget {
-  final ProductModel product;
+  final ProductEntity product;
   final int quantity;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
-  final VoidCallback onDelete; // Ação para remover com simulação de erro
-  final bool isRemoving; // Para controlar o loading individual
+  final VoidCallback onDelete;
+  final bool isRemoving; 
 
   const CartItemCard({
     super.key,
@@ -73,7 +73,6 @@ class CartItemCard extends StatelessWidget {
           ),
           const SizedBox(width: 8),
 
-          // Valores à Direita
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
