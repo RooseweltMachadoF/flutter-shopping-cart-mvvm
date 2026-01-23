@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_cart/core/config/shopping_app_collors.dart';
-import 'package:shopping_cart/data/models/product/product_model.dart';
+import 'package:shopping_cart/domain/entities/product/product_entity.dart';
 
 class ButtonQuantitySelectorWidget extends StatelessWidget {
-  final ProductModel model;
+  final ProductEntity model;
   final void Function()? removeFromCart;
   final void Function()? addToCart;
   final int quantity;

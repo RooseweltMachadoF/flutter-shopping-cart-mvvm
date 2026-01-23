@@ -6,7 +6,7 @@ import 'package:shopping_cart/core/widgets/images/network_app_image_widget.dart'
 import 'package:shopping_cart/core/widgets/sized_box/sized_box_widget.dart';
 import 'package:shopping_cart/core/widgets/star_rating/star_rating_widget.dart';
 import 'package:shopping_cart/core/widgets/texts/text_widget.dart';
-import 'package:shopping_cart/data/models/product/product_model.dart';
+import 'package:shopping_cart/domain/entities/product/product_entity.dart';
 
 class DetailsView extends StatelessWidget {
   static const String routeName = '/product-details';
@@ -14,7 +14,7 @@ class DetailsView extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final item = ModalRoute.of(context)?.settings.arguments as ProductModel;
+    final item = ModalRoute.of(context)?.settings.arguments as ProductEntity;
     return Scaffold(
       body: Stack(
         children: [
