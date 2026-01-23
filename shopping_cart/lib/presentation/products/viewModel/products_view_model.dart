@@ -1,46 +1,45 @@
-import 'package:flutter/material.dart';
-import 'package:shopping_cart/data/models/product/product_model.dart';
-import 'package:shopping_cart/data/repositories/products_repository/products_repository.dart';
+import 'package:flutter/foundation.dart';
+import 'package:shopping_cart/domain/entities/product/product_entity.dart';
+import 'package:shopping_cart/domain/usecases/get_products_use_case.dart';
+import 'package:shopping_cart/presentation/products/commands/loading_products_commad.dart';
 
 class ProductsViewModel extends ChangeNotifier {
-  final ProductsRepository _repository;
+  final GetProductsUseCase _getProductsUseCase;
+  late final LoadProductsCommand loadProductsCommand;
 
-  ProductsViewModel(this._repository);
+  List<ProductEntity> _filteredProducts = [];
+  List<ProductEntity> get products => _filteredProducts;
 
-  List<ProductModel> _products = [];
-  List<ProductModel> get products => _products;
+  ProductsViewModel(this._getProductsUseCase) {
+    loadProductsCommand = LoadProductsCommand(_getProductsUseCase);
+    
+    loadProductsCommand.addListener(() {
+      _filteredProducts = loadProductsCommand.data ?? [];
+      notifyListeners();
+    });
+  }
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-  bool get hasError => _errorMessage != null;
+  bool get isLoading => loadProductsCommand.isLoading;
+  String? get errorMessage => loadProductsCommand.error;
 
   Future<void> fetchProducts() async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      _products.clear();
-      _products = await _repository.getProducts();
-    } catch (e) {
-      _errorMessage = "Não foi possível carregar os produtos. Tente novamente.";
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+    await loadProductsCommand.execute();
   }
 
   void filterProducts(String query) {
     if (query.isEmpty) {
-      fetchProducts();
+      _filteredProducts = loadProductsCommand.data ?? [];
     } else {
-      _products = _products
+      _filteredProducts = (loadProductsCommand.data ?? [])
           .where((p) => p.title.toLowerCase().contains(query.toLowerCase()))
           .toList();
-      notifyListeners();
     }
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    loadProductsCommand.dispose();
+    super.dispose();
   }
 }

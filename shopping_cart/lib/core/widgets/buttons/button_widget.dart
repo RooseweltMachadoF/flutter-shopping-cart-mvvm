@@ -30,7 +30,7 @@ class ButtonWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextWidget.normal(text: label),
+            Flexible(child: TextWidget.normal(text: label)),
             if(isLoading)
               ...[
                 const SizedBoxWidget.md(),

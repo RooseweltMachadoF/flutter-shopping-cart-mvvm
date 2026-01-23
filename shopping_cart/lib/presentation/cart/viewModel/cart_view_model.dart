@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping_cart/data/models/product/product_model.dart';
+import 'package:shopping_cart/domain/entities/product/product_entity.dart';
 import 'package:shopping_cart/presentation/order/order_view_model.dart';
 
 class CartViewModel extends ChangeNotifier {
   final Map<int, int> _items = {}; 
-  final List<ProductModel> _productsInCart = [];
+  final List<ProductEntity> _productsInCart = [];
 
-  List<ProductModel> get products => _productsInCart;
+  List<ProductEntity> get products => _productsInCart;
   
   int getProductQuantity(int productId) => _items[productId] ?? 0;
 
@@ -18,7 +18,7 @@ class CartViewModel extends ChangeNotifier {
   bool _isCheckingOut = false;
   bool get isCheckingOut => _isCheckingOut;
 
-  bool addToCart(ProductModel product) {
+  bool addToCart(ProductEntity product) {
     if (!_items.containsKey(product.id) && _items.length >= 10) {
       debugPrint("Limite de 10 produtos diferentes atingido!");
       return false; 

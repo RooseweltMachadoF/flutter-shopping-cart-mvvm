@@ -12,7 +12,7 @@ class ProductsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        makeProductController(context),
+        makeProductController(),
       ],
       child: const ProductsWidget(),
     );
